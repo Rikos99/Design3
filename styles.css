@@ -1,0 +1,21 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;1,300&family=Ubuntu:wght@300;500&display=swap');
+body {
+    font-family: 'Ubuntu', sans-serif;
+    font-weight: 300;
+}
+header {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: bold;
+}
+footer {
+    font-size: small;
+}
+footer a {
+    color: black;
+}
+#login, #register {
+    width: 500px;
+}
+#login input[type=text], #login input[type=password], #register input[type=text], #register input[type=password] {
+    margin-bottom: 5px;
+}
