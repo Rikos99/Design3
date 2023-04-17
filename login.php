@@ -1,55 +1,90 @@
 <?php
-session_start();
 
-$title="Login";
-include ("html_top.phtml");
-include ("nav.phtml");
-
-
-
-
-
-
-function login($dbconnect, $udajeUzivatele)
+if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"]===true)
 {
-    $hashHesla = sha1($udajeUzivatele["heslo"]);
-    $sql = "
-        SELECT *
+    header("location: index.php");
+    exit;
+}
+
+require_once ("dbconnect.php");
+
+$nickname = $password = "";
+$nickname_err = $password_err = $login_err = "";
+
+if($_SERVER["REQUEST_METHOD"]=="POST")
+{
+        if(empty(trim($_POST["nickname"])))
+        {
+            $nickname_err="Prosím, zadejte přezdívku.";
+        }
+        else
+        {
+            $nickname=trim($_POST["nickname"]);
+        }
+
+
+    if(empty(trim($_POST["password"])))
+    {
+        $password_err="Prosím, zadejte heslo.";
+    }
+    else
+    {
+        $password=trim($_POST["password"]);
+    }
+
+    if(empty($nickname_err)&&empty($password_err))
+    {
+        $sql = "
+        SELECT ID_U,nickname,password
         FROM Uzivatel
-        WHERE login = '{$udajeUzivatele["login"]}' 
-          AND heslo = '$hashHesla';
-    ";
-    $vysledek = mysqli_query($dbconnect,$sql);
-    $uzivatel = mysqli_fetch_assoc($vysledek);
-    if($uzivatel)
-    {
-        $_SESSION["uzivatel"] = $uzivatel;
-        return 1;
+        WHERE Nickname=?;
+        ";
+        if($stmt=mysqli_prepare($dbconnect,$sql)) {
+            mysqli_stmt_bind_param($stmt, "s", $param_nickname);
+
+            $param_nickname = $nickname;
+
+            if (mysqli_stmt_execute($stmt))
+            {
+                mysqli_stmt_store_result($stmt);
+
+                if(mysqli_stmt_num_rows($stmt)==1)
+                {
+                    mysqli_stmt_bind_result($stmt,$id,$username,$hashed_password);
+                    if(mysqli_stmt_fetch($stmt))
+                    {
+                        if(password_verify($password,$hashed_password))
+                        {
+                            session_start();
+
+                            $_SESSION["loggedin"]=true;
+                            $_SESSION["id"]=$id;
+                            $_SESSION["nickname"]=$nickname;
+
+                            header("location: index.php");
+                        }
+                        else
+                        {
+                            $login_err="Neplatná přezdívka, nebo heslo.";
+                        }
+                    }
+                }
+                else
+                {
+                    $login_err="Neplatná přezdívka, nebo heslo.";
+                }
+            }
+            else
+            {
+                echo "Ups! Něco se pokazilo. Zkuste prosím znovu později.";
+            }
+
+            mysqli_stmt_close($stmt);
+        }
     }
-    return 0;
+    mysqli_close($dbconnect);
 }
-if(isset($_POST["login"]))
-{
-    if(login($dbconnect,$_POST))
-    {
-        header("Location: index.php");
-        exit;
-    }
-}
-else
-{
-    echo "<p>Přihlášení bylo neúspěšné</p>";
-}
+require("login.phtml");
 
-?>
-<form id="login">
-    <label for="nickname">Přezdívka</label><br><input type="text" name="nickname" id="username" placeholder="Přezdívka" required><br>
-    <label for="password">Heslo</label><br><input type="password" name="password" id="password" placeholder="Heslo" required><br>
-    <input type="submit" value="Přihlásit se">
-</form>
 
-<p>Nemáte ještě účet? <a href="register.php">Registrujte se</a></p>
-
-<?php
-include("html_bottom.phtml");
 ?>

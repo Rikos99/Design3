@@ -1,4 +1,5 @@
 <?php
+include ("init.php");
 $title="Hlavní stránka";
 include("html_top.phtml");
 /*
@@ -10,12 +11,7 @@ include("nav.phtml");
 
 <p>Lorem ipsum dolor sit amet</p>
 <?php
-$sql = '
-    SELECT *
-    FROM Uzivatel;
-';
-$content = $dbconnect->query($sql)->fetch_all(MYSQLI_ASSOC);
-var_dump($content);
+var_dump($_SESSION);
 ?>
 <!--UZIVATELE -->
 

@@ -1,8 +1,8 @@
 <?php
+include ("init.php");
 $title="Register";
 include ("html_top.phtml");
 include ("nav.phtml");
-include ("dbconnect.php");
 /*
 if($dbconnect)
 {
