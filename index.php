@@ -14,7 +14,7 @@ $sql = '
     SELECT *
     FROM Uzivatel;
 ';
-$content = $conn->query($sql)->fetch_all(MYSQLI_ASSOC);
+$content = $dbconnect->query($sql)->fetch_all(MYSQLI_ASSOC);
 var_dump($content);
 ?>
 <!--UZIVATELE -->

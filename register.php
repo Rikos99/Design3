@@ -2,23 +2,118 @@
 $title="Register";
 include ("html_top.phtml");
 include ("nav.phtml");
-?>
-    <form id="register">
-        <label for="nickname">Přezdívka</label><br><input type="text" name="nickname" id="nickname" placeholder="Přezdívka" required><br>
-        <label for="email">E-Mail</label><br><input type="text" name="email" id="email" placeholder="E-Mail" required><br>
-        <label for="password">Heslo</label><br><input type="password" name="password" id="password" placeholder="Heslo" required><br>
-        <label for="password2">Opakovat heslo</label><br><input type="password" name="password2" id="password2" placeholder="Opakovat heslo" required>
-        <input type="submit" value="Registrovat se">
-    </form>
-
-    <p>Již máte účet? <a href="login.php">Přihlásit se</a></p>
-<?php
-
-function register($dbconnect, $udajeUzivatele)
+include ("dbconnect.php");
+/*
+if($dbconnect)
 {
+    echo 'connected';
+}
+else
+{
+    echo 'not connected';
+}
+*/ //Test připojení
 
+$nickname = $password = $confirm_password = "";
+$nickname_err = $password_err = $confirm_password_err = "";
+
+if($_SERVER["REQUEST_METHOD"]=="POST")
+{
+    if(empty(trim($_POST["nickname"])))
+    {
+        $nickname_err="Prosím zadejte přezdívku.";
+    }
+    elseif(!preg_match('/^[a-zA-Z0-9_]+$/',trim($_POST["nickname"])))
+    {
+        $nickname_err = "Přezdívka může obsahovat jen písmena, čísla a podtržítka.";
+    }
+    else
+    {
+        $sql="
+        SELECT ID_U
+        FROM Uzivatel
+        WHERE Nickname = ?
+        ";
+        if($stmt=mysqli_prepare($dbconnect,$sql))
+        {
+            mysqli_stmt_bind_param($stmt, "s", $param_nickname);
+
+            $param_nickname = trim($_POST["nickname"]);
+
+            if(mysqli_stmt_execute($stmt))
+            {
+                mysqli_stmt_store_result($stmt);
+
+                if(mysqli_stmt_num_rows($stmt)==1)
+                    $nickname_err= "Tato přezdívka již existuje.";
+                else
+                    $nickname = trim($_POST["nickname"]);
+            }
+            else
+            {
+                echo "Ups! Něco se pokazilo. Zkuste prosím znovu později.";
+            }
+
+        mysqli_stmt_close($stmt);
+        }
+    }
+
+if(empty(trim($_POST["password"])))
+{
+    $password_err = "Prosím zadejte heslo.";
+}
+elseif(strlen(trim($_POST["password"]))<6)
+{
+    $password_err = "Heslo musí obsahovat alespoň 6 znaků.";
+}
+else
+{
+    $password = trim($_POST["password"]);
 }
 
+if(empty(trim($_POST["confirm_password"])))
+{
+    $confirm_password_err = "Please confirm password.";
+}
+else
+{
+    $confirm_password = trim($_POST["confirm_password"]);
+    if(empty($password_err) && ($password != $confirm_password))
+    {
+        $confirm_password_err = "Hesla se neshodují.";
+    }
+}
 
-include("html_bottom.phtml");
+if(empty($nickname_err) && empty($password_err) && empty($confirm_password_err))
+{
+    $sql = "
+        INSERT INTO Uzivatel (Nickname,Password,Administrator)
+        VALUES (?,?,0);
+    ";
+
+    if($stmt=mysqli_prepare($dbconnect,$sql))
+    {
+        mysqli_stmt_bind_param($stmt,"ss",$param_nickname,$param_password);
+
+
+
+        $param_nickname = $nickname;
+        $param_password = password_hash($password, PASSWORD_DEFAULT);
+
+        if(mysqli_stmt_execute($stmt))
+        {
+            header("location: login.php");
+        }
+        else
+        {
+            echo "Ups! Něco se pokazilo. Zkuste prosím znovu později.";
+        }
+        mysqli_stmt_close();
+
+    }
+    mysqli_close($dbconnect);
+    }
+}
+
+require ("register.phtml");
 ?>
