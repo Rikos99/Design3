@@ -1,13 +1,11 @@
 <?php
+include ("init.php");
 
 if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"]===true)
 {
     header("location: index.php");
     exit;
 }
-
-require_once ("dbconnect.php");
-
 $nickname = $password = "";
 $nickname_err = $password_err = $login_err = "";
 
@@ -35,7 +33,7 @@ if($_SERVER["REQUEST_METHOD"]=="POST")
     if(empty($nickname_err)&&empty($password_err))
     {
         $sql = "
-        SELECT ID_U,nickname,password
+        SELECT ID_U,Nickname,Password
         FROM Uzivatel
         WHERE Nickname=?;
         ";
@@ -61,7 +59,17 @@ if($_SERVER["REQUEST_METHOD"]=="POST")
                             $_SESSION["id"]=$id;
                             $_SESSION["nickname"]=$nickname;
 
+
+                            $sqlAdministrator = '
+                                SELECT Administrator
+                                FROM Uzivatel
+                                WHERE ID_U='.$_SESSION["id"];
+                            $administrator = $dbconnect -> query($sqlAdministrator) -> fetch_all(MYSQLI_ASSOC);
+                            $_SESSION["administrator"]=$administrator;
+
+
                             header("location: index.php");
+                            exit();
                         }
                         else
                         {

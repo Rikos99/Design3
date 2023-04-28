@@ -1,12 +1,15 @@
 </head>
 <body>
 <header>
-    <a href="index.php"><img src="images/anaglyphLogo.png" alt="logo" width="100" class="logo"></a>
+    <a href="index.php"><img src="images/anaglyphLogo.png" alt="logo" width="100px" class="logo"></a>
     <h1><strong><?= /** @var TYPE_NAME $title */$title?></strong></h1>
     <nav>
         <ul class="navigace">
-            <li><a href="index.php"><Strong>Index</Strong></a></li>
-            <li><a href=""></a></li>
+            <li><a href="index.php"><Strong>Hlavní stránka</Strong></a></li>
+            <?php
+            if($_SESSION["administrator"]==1)
+                echo '<li><a href="testLogin.php">Test Login</a></li>'; //<!-- TODO - TEMPORARY POZDĚJI VYMAZAT-->
+            ?>
             <li><a href=""></a></li>
             <li><a href="author.php">Autor stránky</a></li>
             <!--
@@ -16,9 +19,10 @@
     </nav>
     <?php
     if(isset($_SESSION["id"]))
-    {
-        echo "<p>".$_SESSION["nickname"]."</p>";
-    }
+        {
+            echo "<a href=users/".$_SESSION["nickname"]."/".'mainPage.php>'.$_SESSION["nickname"]."</a>";
+            echo "<a href=logout.php>Odhlásit se</a>";
+        }
     else
         echo '<a href="login.php"><strong>Přihlásit se</strong></a>';
     ?>

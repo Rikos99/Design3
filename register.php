@@ -1,9 +1,5 @@
 <?php
 include ("init.php");
-$title="Register";
-include ("html_top.phtml");
-include ("nav.phtml");
-/*
 if($dbconnect)
 {
     echo 'connected';
@@ -12,13 +8,18 @@ else
 {
     echo 'not connected';
 }
-*/ //Test připojení
+ //Test připojení
 
-$nickname = $password = $confirm_password = "";
-$nickname_err = $password_err = $confirm_password_err = "";
+$nickname = $password = $email = $confirm_password = "";
+$nickname_err = $password_err = $email_err = $confirm_password_err = "";
 
 if($_SERVER["REQUEST_METHOD"]=="POST")
 {
+/*
+
+    KONTROLA PREZDIVKY
+
+*/
     if(empty(trim($_POST["nickname"])))
     {
         $nickname_err="Prosím zadejte přezdívku.";
@@ -58,62 +59,91 @@ if($_SERVER["REQUEST_METHOD"]=="POST")
         }
     }
 
-if(empty(trim($_POST["password"])))
-{
-    $password_err = "Prosím zadejte heslo.";
-}
-elseif(strlen(trim($_POST["password"]))<6)
-{
-    $password_err = "Heslo musí obsahovat alespoň 6 znaků.";
-}
-else
-{
-    $password = trim($_POST["password"]);
-}
+/*
 
-if(empty(trim($_POST["confirm_password"])))
-{
-    $confirm_password_err = "Please confirm password.";
-}
-else
-{
-    $confirm_password = trim($_POST["confirm_password"]);
-    if(empty($password_err) && ($password != $confirm_password))
+    KONTROLA EMAILU
+
+*/
+
+    if(empty(trim($_POST["email"])))
     {
-        $confirm_password_err = "Hesla se neshodují.";
+        $email_err="Prosím zadejte E-Mail.";
     }
-}
-
-if(empty($nickname_err) && empty($password_err) && empty($confirm_password_err))
-{
-    $sql = "
-        INSERT INTO Uzivatel (Nickname,Password,Administrator)
-        VALUES (?,?,0);
-    ";
-
-    if($stmt=mysqli_prepare($dbconnect,$sql))
+    /*
+    elseif(filter_var(trim($_POST["email"],FILTER_VALIDATE_EMAIL)))
     {
-        mysqli_stmt_bind_param($stmt,"ss",$param_nickname,$param_password);
-
-
-
-        $param_nickname = $nickname;
-        $param_password = password_hash($password, PASSWORD_DEFAULT);
-
-        if(mysqli_stmt_execute($stmt))
-        {
-            header("location: login.php");
-        }
-        else
-        {
-            echo "Ups! Něco se pokazilo. Zkuste prosím znovu později.";
-        }
-        mysqli_stmt_close();
-
+        $email_err="Prosím zadejte validní E-Mail.";
     }
+    */
+    else
+    {
+        $email=trim($_POST["email"]);
+    }
+
+
+/*
+
+    KONTROLA HESLA
+
+*/
+    if(empty(trim($_POST["password"])))
+    {
+        $password_err = "Prosím zadejte heslo.";
+    }
+    elseif(strlen(trim($_POST["password"]))<6)
+    {
+        $password_err = "Heslo musí obsahovat alespoň 6 znaků.";
+    }
+    else
+    {
+        $password = trim($_POST["password"]);
+    }
+
+    if(empty(trim($_POST["confirm_password"])))
+    {
+        $confirm_password_err = "Prosím zopakujte heslo.";
+    }
+    else
+    {
+        $confirm_password = trim($_POST["confirm_password"]);
+        if(empty($password_err) && ($password != $confirm_password))
+        {
+            $confirm_password_err = "Hesla se neshodují.";
+        }
+    }
+
+    if(empty($nickname_err) && empty($email_err) && empty($password_err) && empty($confirm_password_err))
+    {
+        $sql = "
+            INSERT INTO Uzivatel(Nickname,Email,Password, Administrator)
+            VALUES (?, ?, ?, 0)
+        ";
+
+//        createPage($nickname); //Vytvoreni stranky uzivateli TODO ODKOMENTOVAT
+
+        if($stmt=mysqli_prepare($dbconnect,$sql))
+        {
+
+            $param_nickname = $nickname;
+            $param_email = $email;
+            $param_password = password_hash($password, PASSWORD_DEFAULT);
+
+            mysqli_stmt_bind_param($stmt,"sss",$param_nickname, $param_email, $param_password);
+
+            if(mysqli_stmt_execute($stmt))
+            {
+                header("location: login.php");
+                exit();
+            }
+            else
+            {
+                echo "Ups! Něco se pokazilo. Zkuste prosím znovu později.";
+            }
+            mysqli_stmt_close($stmt);
+
+        }
     mysqli_close($dbconnect);
     }
 }
 
 require ("register.phtml");
-?>
