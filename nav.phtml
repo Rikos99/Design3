@@ -1,30 +1,44 @@
 </head>
 <body>
 <header>
-    <a href="index.php"><img src="images/anaglyphLogo.png" alt="logo" width="100px" class="logo"></a>
-    <h1><strong><?= /** @var TYPE_NAME $title */$title?></strong></h1>
+    <a href="/index.php"><img src="/images/anaglyphLogo.png" alt="logo" class="logo"><!--<h1><strong>Design³</strong>--></h1></a>
+    <!-- <h2><strong><?= /** @var TYPE_NAME $title */$title?></strong></h2> -->
     <nav>
         <ul class="navigace">
-            <li><a href="index.php"><Strong>Hlavní stránka</Strong></a></li>
+            <li><a href="/index.php">Hlavní stránka</a></li>
             <?php
-            if($_SESSION["administrator"]==1)
-                echo '<li><a href="testLogin.php">Test Login</a></li>'; //<!-- TODO - TEMPORARY POZDĚJI VYMAZAT-->
+            if($_SESSION["administrator"]==1) {
+                echo '<li><a href="/testLogin.php">Test Login</a></li>';
+                echo '<li><a href="/users/template/template.php">Template Uživatele</a></li>';
+            }
             ?>
-            <li><a href=""></a></li>
-            <li><a href="author.php">Autor stránky</a></li>
+            <li><a href="/users.php">Uživatelé</a></li>
+            <li><a href="/author.php">Autor stránky</a></li>
+            <li><a href=/users/<?=$_SESSION["nickname"]."/".'mainPage.php>'.$_SESSION["nickname"]?></a>
+            <?php
+                if(isset($_SESSION["nickname"]))
+                {
+                    echo "<ul>";
+                            if($dbconnect)
+                            {
+                                echo "<li>Connected</li>";
+                            }
+                            else
+                            {
+                                echo "<li>Not connected</li>";
+                            }
+                        echo "<li><a href='/users/settings.php'>Nastavení</a></li>";
+                        echo "<li><a href=/logout.php>Odhlásit se</a></li>";
+                    echo "</ul>";
+                }
+                else
+                    echo '<a href="/login.php">Přihlásit se</a>';
+                ?>
+            </li>
             <!--
             <li><a href=""></a></li>
             -->
         </ul>
     </nav>
-    <?php
-    if(isset($_SESSION["id"]))
-        {
-            echo "<a href=users/".$_SESSION["nickname"]."/".'mainPage.php>'.$_SESSION["nickname"]."</a>";
-            echo "<a href=logout.php>Odhlásit se</a>";
-        }
-    else
-        echo '<a href="login.php"><strong>Přihlásit se</strong></a>';
-    ?>
     <!-- VOLBA JAZYKU -->
 </header>

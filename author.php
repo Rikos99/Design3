@@ -11,3 +11,7 @@ Zájmy
 Kontakty
 */
 ?>
+
+<?php
+include("html_bottom.phtml");
+?>

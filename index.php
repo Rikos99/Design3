@@ -9,7 +9,8 @@ tady vložit custom věci do <head>
 include("nav.phtml");
 ?>
 
-<p>Lorem ipsum dolor sit amet</p>
+<p>Stránka pro sdílení 3D modelů<br>Pořád Work in Progress</p>
+
 
 <?php
 include("html_bottom.phtml");

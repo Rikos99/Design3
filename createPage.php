@@ -11,6 +11,5 @@ function createPage($nickname)
     fwrite($file,$template);
     fclose($file);
 
-    header("location:users/$nickname/mainPage.php");
 }
 ?>

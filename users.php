@@ -14,7 +14,7 @@ $uzivatele = $dbconnect -> query($sql) -> fetch_all(MYSQLI_ASSOC);
 
 foreach($uzivatele as $uzivatel)
 {
-    echo "<a href=users/".$uzivatel["Nickname"].'.php>'.$uzivatel["Nickname"]."</a>";
+    echo "<a href=users/".$uzivatel["Nickname"].'/mainPage.php>'.$uzivatel["Nickname"]."</a>";
 }
 
 ?>

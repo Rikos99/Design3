@@ -6,7 +6,7 @@ if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"]===true)
     header("location: index.php");
     exit;
 }
-$nickname = $password = "";
+$nickname = $password = $administrator = "";
 $nickname_err = $password_err = $login_err = "";
 
 if($_SERVER["REQUEST_METHOD"]=="POST")
@@ -33,7 +33,7 @@ if($_SERVER["REQUEST_METHOD"]=="POST")
     if(empty($nickname_err)&&empty($password_err))
     {
         $sql = "
-        SELECT ID_U,Nickname,Password
+        SELECT ID_U,Nickname,Password,Administrator
         FROM Uzivatel
         WHERE Nickname=?;
         ";
@@ -48,7 +48,7 @@ if($_SERVER["REQUEST_METHOD"]=="POST")
 
                 if(mysqli_stmt_num_rows($stmt)==1)
                 {
-                    mysqli_stmt_bind_result($stmt,$id,$username,$hashed_password);
+                    mysqli_stmt_bind_result($stmt,$id,$username,$hashed_password,$administrator);
                     if(mysqli_stmt_fetch($stmt))
                     {
                         if(password_verify($password,$hashed_password))
@@ -58,15 +58,7 @@ if($_SERVER["REQUEST_METHOD"]=="POST")
                             $_SESSION["loggedin"]=true;
                             $_SESSION["id"]=$id;
                             $_SESSION["nickname"]=$nickname;
-
-
-                            $sqlAdministrator = '
-                                SELECT Administrator
-                                FROM Uzivatel
-                                WHERE ID_U='.$_SESSION["id"];
-                            $administrator = $dbconnect -> query($sqlAdministrator) -> fetch_all(MYSQLI_ASSOC);
                             $_SESSION["administrator"]=$administrator;
-
 
                             header("location: index.php");
                             exit();

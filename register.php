@@ -1,13 +1,6 @@
 <?php
 include ("init.php");
-if($dbconnect)
-{
-    echo 'connected';
-}
-else
-{
-    echo 'not connected';
-}
+
  //Test připojení
 
 $nickname = $password = $email = $confirm_password = "";
@@ -119,7 +112,7 @@ if($_SERVER["REQUEST_METHOD"]=="POST")
             VALUES (?, ?, ?, 0)
         ";
 
-//        createPage($nickname); //Vytvoreni stranky uzivateli TODO ODKOMENTOVAT
+        createPage($nickname); //Vytvoreni stranky uzivateli
 
         if($stmt=mysqli_prepare($dbconnect,$sql))
         {
