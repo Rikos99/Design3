@@ -3,11 +3,10 @@ include ("init.php");
 $title="Uživatelé";
 include ("html_top.phtml");
 include ("nav.phtml");
-
+echo "<h2>Seznam uživatelů</h2>";
 $sql = "
 SELECT Nickname
-FROM Uzivatel
-WHERE Administrator<>1;
+FROM Uzivatel;
 ";
 
 $uzivatele = $dbconnect -> query($sql) -> fetch_all(MYSQLI_ASSOC);

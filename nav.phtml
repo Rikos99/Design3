@@ -6,14 +6,19 @@
     <nav>
         <ul class="navigace">
             <li><a href="/index.php">Hlavní stránka</a></li>
-            <?php
-            if($_SESSION["administrator"]==1) {
-                echo '<li><a href="/testLogin.php">Test Login</a></li>';
-                echo '<li><a href="/users/template/template.php">Template Uživatele</a></li>';
-            }
-            ?>
             <li><a href="/users.php">Uživatelé</a></li>
             <li><a href="/author.php">Autor stránky</a></li>
+                <?php
+                if($_SESSION["administrator"]==1)
+                {
+                    echo "<li>Administrator";
+                        echo "<ul>";
+                            echo '<li><a href="/testLogin.php">Test Login</a></li>';
+                            echo '<li><a href="/users/template/template.php">Template Uživatele</a></li>';
+                        echo "</ul>";
+                    echo "</li>";
+                }
+                ?>
             <li><a href=/users/<?=$_SESSION["nickname"]."/".'mainPage.php>'.$_SESSION["nickname"]?></a>
             <?php
                 if(isset($_SESSION["nickname"]))
@@ -21,11 +26,11 @@
                     echo "<ul>";
                             if($dbconnect)
                             {
-                                echo "<li>Connected</li>";
+                                echo "<li>Připojení k databázi je aktivní</li>";
                             }
                             else
                             {
-                                echo "<li>Not connected</li>";
+                                echo "<li>Připojení k databázi není aktivní</li>";
                             }
                         echo "<li><a href='/users/settings.php'>Nastavení</a></li>";
                         echo "<li><a href=/logout.php>Odhlásit se</a></li>";

@@ -9,7 +9,7 @@ tady vložit custom věci do <head>
 include("nav.phtml");
 ?>
 
-<p>Stránka pro sdílení 3D modelů<br>Pořád Work in Progress</p>
+<p>Stránka pro sdílení 3D modelů<br>Work in Progress</p>
 
 
 <?php

@@ -15,7 +15,7 @@ WHERE Nickname="."'$nickname'";
 
 $uzivatele = $dbconnect -> query($sql) -> fetch_all(MYSQLI_ASSOC);
 foreach($uzivatele as $uzivatel)
-
+$uzivatel["ProfilePicture"];
 
 /*
     echo "<img src='/users/default/1.png' alt='Profile Picture'>";
