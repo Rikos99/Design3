@@ -8,7 +8,7 @@ include("../nav.phtml");
 
 ?>
 <h2>Profilová ikona</h2>
-<form method='post'>
+<form method='post' enctype="multipart/form-data">
     <table id="settingsPFPSelect">
     <tr>
         <?php
@@ -73,7 +73,7 @@ include("../nav.phtml");
                         {
                             echo "<td>";
                             echo '<label for="checkboxVlastniProfilovaIkona"><img src="/users/default/camera.png" alt="vlastniProfilovaIkona" width="256" class="defaultPFP"></label>
-                                  <input class="defaultInputPFP" type="radio" id="checkboxVlastniProfilovaIkona" name="defaultPFP" value="' .$k.'"><label for="checkboxVlastniProfilovaIkona">Vlastní Profilová ikona</label>';
+                                  <input class="defaultInputPFP" type="radio" id="checkboxVlastniProfilovaIkona" name="defaultPFP" value="' .$k.'"><label for="checkboxVlastniProfilovaIkona">Vlastní Profilová ikona</label>'; //Změnil jsi 'name', jestli se něco posere, zkus to změnit!
                             echo '<input  id="uploadPFP" type="file" name="uploadPFP" accept="'.implode(",",$allowedTypes).'">';
                             echo "</td>";
                         }
@@ -102,6 +102,5 @@ include("../nav.phtml");
 
 
 <?php
-$dbconnect -> close();
 include("../html_bottom.phtml");
 ?>
