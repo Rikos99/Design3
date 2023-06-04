@@ -15,15 +15,6 @@
                         echo "<ul>";
                             echo '<li><a href="/testLogin.php">Test Login</a></li>';
                             echo '<li><a href="/users/template/template.php">Template Uživatele</a></li>';
-                        echo "</ul>";
-                    echo "</li>";
-                }
-                ?>
-            <li><a href=/users/<?=$_SESSION["nickname"]."/".'mainPage.php>'.$_SESSION["nickname"]?></a>
-            <?php
-                if(isset($_SESSION["nickname"]))
-                {
-                    echo "<ul>";
                             if($dbconnect)
                             {
                                 echo "<li>Připojení k databázi je aktivní</li>";
@@ -32,6 +23,16 @@
                             {
                                 echo "<li>Připojení k databázi není aktivní</li>";
                             }
+                        echo "</ul>";
+                    echo "</li>";
+                }
+                ?>
+            <li><a href="#">Nahrát model</a></li>
+            <li><a href=/users/<?=$_SESSION["nickname"]."/".'mainPage.php>'.$_SESSION["nickname"]?></a>
+            <?php
+                if(isset($_SESSION["nickname"]))
+                {
+                    echo "<ul>";
                         echo "<li><a href='/users/settings.php'>Nastavení</a></li>";
                         echo "<li><a href=/logout.php>Odhlásit se</a></li>";
                     echo "</ul>";

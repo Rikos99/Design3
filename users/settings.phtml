@@ -6,10 +6,30 @@ include("../nav.phtml");
 
 
 
+echo "<h1>Uživatel <span id='uzivatelName'>".$_SESSION["nickname"]."</span></h1>";
 ?>
-<h2>Profilová ikona</h2>
+<!--
+    <h2>Změnit heslo</h2>
+
+    <form method='post' enctype="multipart/form-data">
+        <input type="password" placeholder="Nové Heslo" name="newPassword" id="newPassword" required><br>
+        <input type="password" placeholder="Nové Heslo Znovu" name="newPasswordAgain" id="confirm_newPassword" required><br>
+        <input type="password" placeholder="Staré Heslo" name="oldPassword" id="oldPassword" required><br>
+
+        <input type="submit" value="Změnit heslo" name="submit">
+    </form>
+-->
+
+<h2>Změnit popis na profilu</h2>
+
+<form method="post" enctype="multipart/form-data">
+    <input type="text" placeholder="Popis" name="description" id="description" required><br>
+    <input type="submit" value="Změnit popis" name="submit">
+</form>
+
+<h2>Změnit profilový obrázek</h2>
 <form method='post' enctype="multipart/form-data">
-    <table id="settingsPFPSelect">
+<table id="settingsPFPSelect">
     <tr>
         <?php
 
@@ -37,7 +57,7 @@ include("../nav.phtml");
                     echo "Luke Skywalker";
                     break;
                 case 7:
-                    echo "Luffy D. Monkey";
+                    echo "Monkey D. Luffy";
                     break;
                 case 8:
                     echo "Neko (Krátké vlasy)";
@@ -74,22 +94,19 @@ include("../nav.phtml");
                             echo "<td>";
                             echo '<label for="checkboxVlastniProfilovaIkona"><img src="/users/default/camera.png" alt="vlastniProfilovaIkona" width="256" class="defaultPFP"></label>
                                   <input class="defaultInputPFP" type="radio" id="checkboxVlastniProfilovaIkona" name="defaultPFP" value="' .$k.'"><label for="checkboxVlastniProfilovaIkona">Vlastní Profilová ikona</label>'; //Změnil jsi 'name', jestli se něco posere, zkus to změnit!
-                            echo '<input  id="uploadPFP" type="file" name="uploadPFP" accept="'.implode(",",$allowedTypes).'">';
+                            echo '<input id="uploadPFP" type="file" name="uploadPFP" accept="'.implode(",",$allowedTypes).'">'; //TODO po zvolení radio inputu - zobrazení uploadu pomocí CSS
                             echo "</td>";
                         }
                         $k++;
                     }
             echo "<tr>";
         }
-        echo "";
         echo "</form>";
         ?>
     </tr>
-    </table>
+</table>
     <input type='submit' name="submit" value="Změnit profilový obrázek">
-    </form>
-
-
+</form>
 
 
 

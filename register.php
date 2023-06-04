@@ -1,5 +1,6 @@
 <?php
 include ("init.php");
+require("createPage.php");
 
  //Test připojení
 
@@ -108,7 +109,7 @@ if($_SERVER["REQUEST_METHOD"]=="POST")
     if(empty($nickname_err) && empty($email_err) && empty($password_err) && empty($confirm_password_err))
     {
         $sql = "
-            INSERT INTO Uzivatel(Nickname,Email,Password, Administrator)
+            INSERT INTO Uzivatel(Nickname,Email,Password,Administrator)
             VALUES (?, ?, ?, 0)
         ";
 

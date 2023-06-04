@@ -9,20 +9,19 @@ include("../../nav.phtml");
 
 $nickname = 'rikos99'; //TODO Po zprovozneni odstranit!!!!
 $sql = "
-SELECT ProfilePicture
+SELECT *
 FROM Uzivatel
 WHERE Nickname="."'$nickname'";
 
 $uzivatele = $dbconnect -> query($sql) -> fetch_all(MYSQLI_ASSOC);
 foreach($uzivatele as $uzivatel)
-$uzivatel["ProfilePicture"];
-
 /*
     echo "<img src='/users/default/1.png' alt='Profile Picture'>";
  */
 echo "<div>";
 echo "<img src='".$uzivatel["ProfilePicture"]."' alt='Profilový obrázek' class='profilePicture'>";
-echo $nickname;
+echo "<br>".$nickname;
+echo "<br>".$uzivatel["ProfileDescription"];
 echo "</div>";
 ?>
 

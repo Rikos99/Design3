@@ -113,3 +113,6 @@ nav li:hover ul {
 #settingsPFPSelect {
     width:.5vw;
 }
+#uzivatelName {
+    text-decoration: underline;
+}
