@@ -106,7 +106,7 @@ if(isset($_POST["defaultPFP"]))
         if(isset($_FILES["uploadPFP"])){
             if($_FILES["uploadPFP"]["size"] <= $PFPmaxFileSize){
                 if(in_array($_FILES["uploadPFP"]["type"],$allowedTypes)){
-                        echo "Profilový obrázek změněn.";
+                        echo "<p>Profilový obrázek byl změněn.</p>";
                         move_uploaded_file($_FILES["uploadPFP"]["tmp_name"],$upload."uploadedPFP.png");
                         $cestaKPFP = "/users/".$_SESSION["nickname"]."/uploadedPFP.png";
                 }

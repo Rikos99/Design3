@@ -13,8 +13,7 @@ SELECT *
 FROM Uzivatel
 WHERE Nickname="."'$nickname'";
 
-$uzivatele = $dbconnect -> query($sql) -> fetch_all(MYSQLI_ASSOC);
-foreach($uzivatele as $uzivatel)
+$uzivatel = $dbconnect -> query($sql) -> fetch_array(MYSQLI_ASSOC);
 /*
     echo "<img src='/users/default/1.png' alt='Profile Picture'>";
  */

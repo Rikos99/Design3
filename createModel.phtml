@@ -1,0 +1,18 @@
+<?php
+$title="Nahrát model";
+include("html_top.phtml");
+include ("nav.phtml");
+?>
+
+<form method="post" enctype="multipart/form-data">
+    <label for="Nazev_Modelu">Název Modelu</label>
+    <input type="text" name="Nazev_Modelu" id="Nazev_Modelu" required><br>
+
+    <label for="Nazev_Souboru">Soubor</label>
+    <input type="file" name="Nazev_Souboru" id="Nazev_Souboru" required accept="model/gltf-binary"><br>
+
+    <label for="Popis">Popis modelu</label>
+    <input type="text" name="Popis" id="Popis"><br>
+
+    <input type="submit" value="Nahrát model">
+</form>

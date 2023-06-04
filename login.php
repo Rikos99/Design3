@@ -85,6 +85,3 @@ if($_SERVER["REQUEST_METHOD"]=="POST")
     mysqli_close($dbconnect);
 }
 require("login.phtml");
-
-
-?>
