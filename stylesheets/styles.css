@@ -1,10 +1,4 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,500;0,700;1,300;1,500;1,700&family=Ubuntu:wght@300;500&display=swap');
-:root {
-    --dark-red: #7e0101ff;
-    --light-red: #e50101ff;
-    --light-blue: #01cfcfff;
-    --dark-blue: #014f4fff;
-}
 /*
 https://coolors.co/7e0101-e50101-01cfcf-014f4f
  */
@@ -126,6 +120,7 @@ model-viewer {
     border: 1px solid black;
     margin-bottom: 5px;
     list-style: none;
+    margin-bottom: 30px;
 }
 .model-ul li img {
     border-right: solid 1px black;
