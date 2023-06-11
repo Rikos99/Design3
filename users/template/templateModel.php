@@ -12,7 +12,7 @@ include("../../../../html_top.phtml");
 </style>
 <?php
 include("../../../../nav.phtml");
-$NazevModelu = "pickaxe";
+$NazevModelu = $title;
 
 $sqlModel = "
     SELECT M.*, U.Nickname, U.ProfilePicture, U.ID_U
@@ -38,7 +38,7 @@ if(!empty($model["Soubor_Renderu"]))
 $sqlHodnoceniUzivatele = "
     SELECT Pocet_Hvezd
     FROM Hodnoceni
-    WHERE ID_U = $ID_U;
+    WHERE ID_U = $ID_U AND ID_M = $ID_M;
 ";
 
 $hodnoceniUzivatele = $dbconnect -> query($sqlHodnoceniUzivatele) -> fetch_assoc();
@@ -72,8 +72,8 @@ echo "<br><br>";
 if(empty($hodnoceni["Hodnoceni"]))
     echo "-";
 else
-    echo $hodnoceni["Hodnoceni"];
-echo "<img src='/images/star.png'>";
+    echo $hodnoceni["Hodnoceni"]*20;
+echo "%";
 
 ?>
 
@@ -140,7 +140,7 @@ function hodnoceni($pocetHvezd, $existuje, $ID_M, $ID_U, $dbconnect)
             SET Pocet_Hvezd = $pocetHvezd
             WHERE ID_M = $ID_M AND ID_U = $ID_U
         ";
-        }
+    }
     elseif($existuje===0) {
         $sql = "
             INSERT INTO Hodnoceni(ID_M, ID_U, Pocet_Hvezd)

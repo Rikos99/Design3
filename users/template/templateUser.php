@@ -7,7 +7,6 @@ $title=$nickname;
 include("../../html_top.phtml");
 include("../../nav.phtml");
 
-$nickname = 'rikos99'; //TODO Po zprovozneni odstranit!!!!
 $sql = "
 SELECT *
 FROM Uzivatel
