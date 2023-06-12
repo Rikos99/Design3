@@ -28,14 +28,15 @@ echo "<p>Vytvořil: <a href='/users/".$model["Nickname"]."/mainPage.php'>".$mode
 
 <?php
 $ID_M = $model["ID_M"];
-$ID_U = $model["ID_U"];
+$ID_U = $_SESSION["id"];
 echo "<p> Popis modelu:<br>".$model['Popis']."</p>";
 if(!empty($model["Soubor_Renderu"]))
     echo "<img class='renderModelu' src='".$model['Soubor_Renderu']."'>";
 ?>
 <h2>Hodnocení</h2>
 <?php
-$sqlHodnoceniUzivatele = "
+if($_SESSION["loggedin"]) {
+    $sqlHodnoceniUzivatele = "
     SELECT Pocet_Hvezd
     FROM Hodnoceni
     WHERE ID_U = $ID_U AND ID_M = $ID_M;
@@ -58,7 +59,7 @@ for($i=1;$i<=5;$i++)
 {
     echo "<a href='?funkce$i'><img src='/images/star.png'></a>";
 }
-
+}
 $sqlHodnoceni = "
     SELECT AVG(Pocet_Hvezd) as Hodnoceni
     FROM Hodnoceni
@@ -68,7 +69,9 @@ $sqlHodnoceni = "
 $hodnoceniResult = $dbconnect -> query($sqlHodnoceni);
 $hodnoceni = mysqli_fetch_assoc($hodnoceniResult);
 
-echo "<br><br>";
+if($_SESSION["loggedin"])
+    echo "<br><br>";
+
 if(empty($hodnoceni["Hodnoceni"]))
     echo "-";
 else
@@ -82,20 +85,24 @@ echo "%";
 
 
 <h2>Komentáře</h2>
-<form class="Komentar" method="post">
-    <label for="Komentar"><h3>Přidat komentář</h3></label><br>
-    <input type="text" name="Komentar" id="komentar"><br>
-    <input type="submit" value="Přidat komentář">
-</form>
 <?php
-if(isset($_POST["Komentar"])) {
-    $Komentar = $_POST["Komentar"];
+if($_SESSION["loggedin"])
+{
+    echo '<form class="Komentar" method="post">
+              <label for="Komentar"><h3>Přidat komentář</h3></label><br>
+              <input type="text" name="Komentar" id="komentar"><br>
+              <input type="submit" value="Přidat komentář">
+          </form>';
 
-    $sqlPridatKomentar = "
-        INSERT INTO Komentar(ID_M, ID_U, Komentar)
-        VALUES('$ID_M','$ID_U','$Komentar');
-    ";
-    $dbconnect -> query($sqlPridatKomentar);
+    if(isset($_POST["Komentar"])) {
+        $Komentar = $_POST["Komentar"];
+
+        $sqlPridatKomentar = "
+            INSERT INTO Komentar(ID_M, ID_U, Komentar)
+            VALUES('$ID_M','$ID_U','$Komentar');
+        ";
+        $dbconnect -> query($sqlPridatKomentar);
+    }
 }
 $sqlKomentare = "
     SELECT K.*, U.Nickname

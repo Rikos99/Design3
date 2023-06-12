@@ -61,7 +61,7 @@ if(isset($_FILES["Nazev_Souboru"]) && isset($_FILES["Soubor_Renderu"]))
 
                 createModel($_SESSION["nickname"], $Nazev_Modelu_BezPripony);
 
-                echo $modelLINK = "users/".$_SESSION["nickname"]."/models/".$Nazev_Modelu."/".$Nazev_Modelu.".php";
+                $modelLINK = "users/".$_SESSION["nickname"]."/models/".$Nazev_Modelu."/".$Nazev_Modelu.".php";
                 echo "<br><a href='".$modelLINK."'>Přejít na model</a>";
             }
             else

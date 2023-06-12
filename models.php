@@ -33,6 +33,10 @@ foreach($modely as $model) //Vypsani vsech modelů
 
         if(isset($_POST["deleteModel"]))
         {
+            $modelDirectory = "/users/".$model["Nickname"]."/models/".$model["Nazev_Modelu"]."/";
+
+            //deleteFolder($modelDirectory);
+
             $sqlModelDelete = "
             DELETE FROM Model
             WHERE ID_M = '".$_POST["deleteModel"]."';
@@ -59,5 +63,23 @@ echo "</ul>";
 
 
 <?php
+
+function deleteFolder($folderPath) {
+    if (!is_dir($folderPath)) {
+        return;
+    }
+
+    $files = glob($folderPath . '/*');
+    foreach ($files as $file) {
+        if (is_file($file)) {
+            unlink($file);
+        } elseif (is_dir($file)) {
+            deleteFolder($file);
+        }
+    }
+
+    rmdir($folderPath);
+}
+
 include("html_bottom.phtml");
 ?>

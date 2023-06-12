@@ -13,7 +13,9 @@ function createPage($nickname)
 }
 function createModel($nickname,$modelName)
 {
-    $file = fopen("./users/".$nickname."/models/".$modelName."/".$modelName.".php", "w");
+    $dir = "./users/".$nickname."/models/".$modelName;
+    mkdir($dir, 0777, true);
+    $file = fopen($dir."/".$modelName.".php", "w");
 
     $filePath = "./users/template/templateModel.txt";
     $template = file_get_contents($filePath);
