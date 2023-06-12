@@ -1,0 +1,55 @@
+</head>
+<body>
+<header>
+    <a href="/index.php"><img src="/images/anaglyphLogo.png" alt="logo" class="logo"><!--<h1><strong>Design³</strong>--></h1></a>
+    <nav>
+        <ul class="navigace">
+            <li><a href="/index.php">Hlavní stránka</a></li>
+            <li><a href="/users.php">Uživatelé</a></li>
+            <li><a href="/models.php">Modely</a></li>
+            <li><a href="/author.php">Autor stránky</a></li>
+                <?php
+                if($_SESSION["administrator"]==1)
+                {
+                    echo "<li>Administrator";
+                        echo "<ul>";
+                            echo '<li><a href="/testLogin.php">Test Login</a></li>';
+                            echo '<li><a href="/users/template/templateUser.php">Template Uživatele</a></li>';
+                            echo '<li><a href="/users/rikos99/models/temp/templateModel.php">Template Modelu</a></li>';
+                            if($dbconnect)
+                            {
+                                echo "<li>Připojení k databázi je aktivní</li>";
+                            }
+                            else
+                            {
+                                echo "<li>Připojení k databázi není aktivní</li>";
+                            }
+                        echo "</ul>";
+                    echo "</li>";
+                }
+                if(isset($_SESSION["nickname"]))
+                {
+                    echo '<li><a href="/createModel.php">Nahrát model</a></li>';
+                }
+                ?>
+            <li><a href=/users/<?=$_SESSION["nickname"]."/".'mainPage.php>'.$_SESSION["nickname"]?></a>
+            <?php
+                if(isset($_SESSION["nickname"]))
+                {
+                    echo "<ul>";
+                        echo "<li><a href='/users/settings.php'>Nastavení</a></li>";
+                        echo "<li><a href=/logout.php>Odhlásit se</a></li>";
+                    echo "</ul>";
+                }
+                else
+                    echo '<a href="/login.php">Přihlásit se</a>';
+                ?>
+            </li>
+            <!--
+            <li><a href=""></a></li>
+            -->
+        </ul>
+    </nav>
+    <!-- VOLBA JAZYKU -->
+</header>
+<div class='content'>
